@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Tweet Streamer</title>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    </head>
+    <body>
+        <ul id="tweets"></ul>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var elList = $('#tweets'),
+                    loadTweets = function() {
+                        $.getJSON('/stream', function(tweets) {
+                            $.each(tweets, function() {
+                                $("<li>")
+                                    .html(this.text)
+                                    .prependTo(elList)
+                                    .hide()
+                                    .show(200);
+                            });
+                            loadTweets();
+                        });
+                    };
+                
+                loadTweets();
+            });
+        </script>
+    </body>
+</html>
